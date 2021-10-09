@@ -1,0 +1,88 @@
+# Note: If .spec.loadBalancerSourceRanges is not set, Kubernetes allows traffic from 0.0.0.0/0 to the Node Security Group(s). If nodes have public IP addresses, be aware that non-NLB traffic can also reach all instances in those modified security groups.
+# https://console.cloud.google.com/kubernetes/service/asia-southeast1/light-cluster-01/app-product/app-90123-0-1001/yaml/view?project=ff-mtp
+# ---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+  creationTimestamp: "2021-09-17T12:56:48Z"
+  finalizers:
+  - service.kubernetes.io/load-balancer-cleanup
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:externalTrafficPolicy: {}
+        f:ports:
+          .: {}
+          k:{"port":80,"protocol":"TCP"}:
+            .: {}
+            f:name: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector:
+          .: {}
+          f:cluster_id: {}
+          f:game_id: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: kubectl-create
+    operation: Update
+    time: "2021-09-17T12:56:48Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:finalizers:
+          .: {}
+          v:"service.kubernetes.io/load-balancer-cleanup": {}
+      f:status:
+        f:loadBalancer:
+          f:ingress: {}
+    manager: kube-controller-manager
+    operation: Update
+    time: "2021-09-17T12:57:30Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:loadBalancerSourceRanges: {}
+        f:selector:
+          f:app_id: {}
+    manager: kubectl-edit
+    operation: Update
+    time: "2021-09-27T08:28:13Z"
+  name: app-90123-0-1001
+  namespace: app-product
+  resourceVersion: "35258210"
+  selfLink: /api/v1/namespaces/app-product/services/app-90123-0-1001
+  uid: 05f479c5-4e76-49e0-97eb-8f977b51dce2
+spec:
+  clusterIP: 10.188.0.122
+  externalTrafficPolicy: Cluster
+  loadBalancerSourceRanges:
+  - 193.112.152.87/32
+  - 134.175.190.196/32
+  - 157.148.33.67/32
+  - 113.96.16.116/32
+  - 120.232.22.107/32
+  ports:
+  - name: 80-80-tcp
+    nodePort: 30203
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app_id: "910123"
+    cluster_id: "1001"
+    game_id: "0"
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 34.87.141.187

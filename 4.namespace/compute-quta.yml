@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: resourcequota
+  namespace: dev
+spec:
+  hard:
+    pods: "10"
+    requests.cpu: "4"
+    requests.memory: 5Gi
+    limits.cpu: "10"
+    limits.memory: 10Gi
+
+#kubectl create -f compute-quota.yml
+#https://kubernetes.io/docs/concepts/policy/resource-quotas/
+
+root@controlplane:~# kubectl get quota --namespace=dev
+NAME            AGE   REQUEST                                                 LIMIT
+resourcequota   16s   pods: 1/10, requests.cpu: 0/4, requests.memory: 0/5Gi   limits.cpu: 0/10, limits.memory: 0/10Gi
+root@controlplane:~# kubectl describe quota            
+No resources found in default namespace.
+root@controlplane:~# kubectl describe quota  --namespace=dev
+Name:            resourcequota
+Namespace:       dev
+Resource         Used  Hard
+--------         ----  ----
+limits.cpu       0     10
+limits.memory    0     10Gi
+pods             1     10
+requests.cpu     0     4
+requests.memory  0     5Gi
+

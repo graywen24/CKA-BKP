@@ -1,0 +1,20 @@
+# kubectl run testrun --image=redis --dry-run=client -o yaml >redis-pod.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: testrun
+  name: testrun
+spec:
+  containers:
+  - image: redis
+    name: testrun
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+
+#kubctl apply -f redis-pod.yml
