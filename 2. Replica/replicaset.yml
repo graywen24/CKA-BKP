@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: repicaSet
+metadata:
+  name: test-replicaSet
+  labeles:
+    app: my-replicaSet
+    tier: front-end
+
+spec:
+  # modify replicas according to your case
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: front-end
+  template:
+    metadata:
+      name: replicatset-pod
+      labels:
+        app: my-replicaSet
+        tier: front-end
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+        
+
+
+
+

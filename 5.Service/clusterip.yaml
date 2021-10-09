@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-clusterip
+spec:
+  type: ClusterIP
+  ports:
+   - targetPort: 80
+     port: 80
+     
+  selector:
+    app: myapp
+    tier: front-end
+ #Note: A Service can map any incoming port to a targetPort. 
+ #By default and for convenience, the targetPort is set to the same value as the port field.   
+ ---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    component: apiserver
+    provider: kubernetes
+  name: kubernetes
+  namespace: default
+  resourceVersion: "205"
+  uid: 66a70da6-acde-492f-a912-7fc698aee0d0
+spec:
+  clusterIP: 10.96.0.1
+  clusterIPs:
+  - 10.96.0.1
+  ports:
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: 6443
+  sessionAffinity: None
+  type: ClusterIP
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+spec:
+  type: NodePort
+  ports:
+    - targetPort: 8080
+      port: 8080
+      nodePort: 30080
+  selector:
+    name: simple-webapp
+
+root@controlplane:~# kubectl get svc -o wide
+NAME             TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE     SELECTOR
+kubernetes       ClusterIP   10.96.0.1      <none>        443/TCP          15m     <none>
+webapp-service   NodePort    10.106.93.97   <none>        8080:30080/TCP   8m43s   name=simple-webapp
+
+for nodeport: curl http://10.106.93.97:8080  accessable  will load to  in diff pod 
+oot@controlplane:~# curl http://10.106.93.97:8080
+<!doctype html>
+<title>Hello from Flask</title>
+<body style="background: #e74c3c;"></body>
+<div style="color: #e4e4e4;
+    text-align:  center;
+    height: 90px;
+    vertical-align:  middle;">
+
+  <h1>Hello from simple-webapp-deployment-b56f88b77-p9q8f!</h1>
+

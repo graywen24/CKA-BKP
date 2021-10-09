@@ -1,0 +1,102 @@
+# externalTrafficPolicy: Local  to capure client source  real ip
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+  creationTimestamp: "2021-08-30T06:49:08Z"
+  finalizers:
+  - service.kubernetes.io/load-balancer-cleanup
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:ports:
+          .: {}
+          k:{"port":80,"protocol":"TCP"}:
+            .: {}
+            f:name: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+          k:{"port":443,"protocol":"TCP"}:
+            .: {}
+            f:name: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+          k:{"port":10012,"protocol":"TCP"}:
+            .: {}
+            f:name: {}
+            f:port: {}
+            f:protocol: {}
+            f:targetPort: {}
+        f:selector:
+          .: {}
+          f:app_id: {}
+          f:cluster_id: {}
+          f:game_id: {}
+        f:sessionAffinity: {}
+        f:type: {}
+    manager: kubectl-create
+    operation: Update
+    time: "2021-08-30T06:49:08Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:metadata:
+        f:finalizers:
+          .: {}
+          v:"service.kubernetes.io/load-balancer-cleanup": {}
+      f:status:
+        f:loadBalancer:
+          f:ingress: {}
+    manager: kube-controller-manager
+    operation: Update
+    time: "2021-08-30T06:59:10Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:externalTrafficPolicy: {}
+    manager: kubectl-edit
+    operation: Update
+    time: "2021-09-30T10:47:42Z"
+  name: app-985-0-1001-new6
+  namespace: app-product
+  resourceVersion: "38266892"
+  selfLink: /api/v1/namespaces/app-product/services/app-985-0-1001-new6
+  uid: dcbfe6af-ef33-4af0-9bd5-da5527d3625e
+spec:
+  clusterIP: 10.188.0.52
+  externalTrafficPolicy: Local
+  healthCheckNodePort: 32757
+  ports:
+  - name: 10012-10012-tcp
+    nodePort: 32276
+    port: 10012
+    protocol: TCP
+    targetPort: 10012
+  - name: 10080-80-tcp
+    nodePort: 30549
+    port: 80
+    protocol: TCP
+    targetPort: 10080
+  - name: 10443-443-tcp
+    nodePort: 32478
+    port: 443
+    protocol: TCP
+    targetPort: 10443
+  selector:
+    app_id: "985"
+    cluster_id: "1001"
+    game_id: "0"
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 35.198.211.155
